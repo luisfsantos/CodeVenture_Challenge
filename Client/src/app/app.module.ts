@@ -6,11 +6,14 @@ import { AuthModule } from './auth/auth.module';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
+import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/guards/auth.guard';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 
 export function tokenGetter() {
-  return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MjkyNzEyNjIsImlhdCI6MTUyOTI2NzY2Mn0.9Og2cDQx8F9F4tYRVDe6mbQec2AMn83WgTS61F9T_yE"; //localStorage.getItem('access_token');
+  return localStorage.getItem('access_token');
 }
 
 @NgModule({
@@ -32,7 +35,8 @@ export function tokenGetter() {
       }
     })
   ],
-  providers: [],
+  providers: [AuthGuard, 
+    AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
