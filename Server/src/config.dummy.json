@@ -1,5 +1,5 @@
 {
 	"github_client_ID":"",
-	"github_client_secret":""
-
+	"github_client_secret":"",
+	"JWT_SECRET":""
 }

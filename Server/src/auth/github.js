@@ -11,6 +11,7 @@ const TOKEN_REDIRECT_URI = 'http://localhost:3000/auth/github/callback/token';
 exports.redirectGithub = ctx => {
 	var state = randomString(12);
 	STATES.push(state);
+	console.log(ctx.headers);
 	return redirect('https://github.com/login/oauth/authorize?client_id='+CONFIG.github_client_ID+'&state='+state);
 };
 
@@ -18,6 +19,7 @@ exports.redirectGithub = ctx => {
 exports.getAuthToken = async ctx => {
 	const code = ctx.query.code;
 	const state = ctx.query.state;
+	var user;
 	if (STATES.length > 0 && STATES.includes(state)) {
 		const accessTokenRequest = {
 			url: 'https://github.com/login/oauth/access_token',
@@ -34,14 +36,20 @@ exports.getAuthToken = async ctx => {
 			  }
 		}
 		await axios(accessTokenRequest).then(response => {
-			var user = getOrCreateUser(response.data.access_token);
+			user = getOrCreateUser(response.data.access_token);
 		}).catch(error => {
 			console.log(error);
 		});
 		if (user === undefined) {
-			return redirect('http://localhost:4200/login?status=nologin'):
+			return redirect('http://localhost:4200/login?status=nologin');
+		} else {
+			var authJwt = jwt.sign({
+						  exp: Math.floor(Date.now() / 1000) + (60 * 60),
+						  data: user.email
+						}, CONFIG.JWT_SECRET);
+			console.log(authJwt);
+			return header('User-Agent', 'Luis Santos').header("Authorization", "token " + authJwt).redirect('http://localhost:4200/home');
 		}
-		return header('auth', 'nothing yet!').redirect('http://localhost:4200/home');
 	} else {
 		//TODO Handle cross errors and invalid states...
 		return status(400);

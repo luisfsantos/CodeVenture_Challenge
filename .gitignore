@@ -1,5 +1,5 @@
 #Configfile
-Server/config.json
+Server/src/config.json
 
 # Created by https://www.gitignore.io/api/node,macos,angular,sublimetext,visualstudiocode
 
