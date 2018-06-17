@@ -1,0 +1,29 @@
+{
+  "name": "server-codeventure",
+  "version": "1.0.0",
+  "description": "Simple JS server for the Angular 5 client application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luisfsantos/CodeVenture_Challenge.git"
+  },
+  "author": "Luis Santos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/luisfsantos/CodeVenture_Challenge/issues"
+  },
+  "homepage": "https://github.com/luisfsantos/CodeVenture_Challenge#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "babel": "^6.23.0",
+    "jsonwebtoken": "^8.3.0",
+    "lowdb": "^1.0.0",
+    "random-base64-string": "^1.0.1",
+    "request": "^2.87.0",
+    "server": "^1.0.18"
+  }
+}
