@@ -11,7 +11,6 @@ const TOKEN_REDIRECT_URI = 'http://localhost:3000/auth/github/callback/token';
 exports.redirectGithub = ctx => {
 	var state = randomString(12);
 	STATES.push(state);
-	console.log(ctx.headers);
 	return redirect('https://github.com/login/oauth/authorize?client_id='+CONFIG.github_client_ID+'&state='+state);
 };
 
@@ -36,8 +35,11 @@ exports.getAuthToken = async ctx => {
 			  }
 		}
 		await axios(accessTokenRequest).then(response => {
-			user = getOrCreateUser(response.data.access_token);
-		}).catch(error => {
+			return findOrCreateUser(response.data.access_token);
+		}).then(value => { 
+			user = value; 
+		})
+		.catch(error => {
 			console.log(error);
 		});
 		if (user === undefined) {
@@ -45,21 +47,20 @@ exports.getAuthToken = async ctx => {
 		} else {
 			var authJwt = jwt.sign({
 						  exp: Math.floor(Date.now() / 1000) + (60 * 60),
-						  data: user.email
+						  name: user.name.toString(),
+						  user: user.email,
 						}, CONFIG.JWT_SECRET);
-			console.log(authJwt);
-			return header('User-Agent', 'Luis Santos').header("Authorization", "token " + authJwt).redirect('http://localhost:4200/home');
+			return redirect('http://localhost:4200/login/token#access_token=' + authJwt);
 		}
 	} else {
 		//TODO Handle cross errors and invalid states...
 		return status(400);
 	}
-	console.log("here");
 	return status(400);
 };
 
 
-async function getOrCreateUser(accessToken) {
+async function findOrCreateUser(accessToken) {
 	const AuthStr = 'token '.concat(accessToken); 
 	const validadeTokenResquest = {
 			url: 'https://api.github.com/user',
@@ -73,9 +74,10 @@ async function getOrCreateUser(accessToken) {
 	await axios(validadeTokenResquest).then(response =>  {
 		user = userAdapter.getUserById(response.data.id);
 	    if (user === undefined) {
-	    	user = userAdapter.createUser(response.data.email, response.data.name, response.data.id, accessToken);
+	    	userAdapter.createUser(response.data.email, response.data.name, response.data.id, accessToken);
+	    	user = userAdapter.getUserById(response.data.id);
 	    } else {
-	    	user = userAdapter.updateAccessToken(response.data.id, accessToken)
+	    	userAdapter.updateAccessToken(response.data.id, accessToken)
 	    }
 	}).catch((error) => {
 	     console.log(error);
