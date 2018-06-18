@@ -11,6 +11,8 @@ import { AuthGuard } from './auth/guards/auth.guard';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { StoryComponent } from './posts/story/story.component';
+import { CommentComponent } from './posts/comment/comment.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -20,6 +22,8 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     HomeComponent,
+    StoryComponent,
+    CommentComponent,
   ],
   imports: [
     BrowserModule,

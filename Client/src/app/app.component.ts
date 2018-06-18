@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit () {
+    this.name = this.auth.userName;
   }
   
 
