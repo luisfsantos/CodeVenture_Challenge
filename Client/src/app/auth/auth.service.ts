@@ -1,42 +1,49 @@
-import { Injectable } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject } from 'rxjs';
-
+import { Injectable } from "@angular/core";
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class AuthService {
-  username: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  constructor() { }
+  loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  constructor() {}
 
   get isLoggedIn() {
     if (this.hasToken()) {
-      var token = this.getToken();
-      const helper = new JwtHelperService();
-      return !helper.isTokenExpired(token);
+      try {
+        var token = this.getToken();
+        const helper = new JwtHelperService();
+        return !helper.isTokenExpired(token);
+      } catch (err) {
+        return false;
+      }
     }
     return false;
-    
   }
 
   get userName() {
     if (this.hasToken()) {
-      var token = this.getToken();
-      const helper = new JwtHelperService();
-      const decodedToken = helper.decodeToken(token);
-      return decodedToken.name;
+      try {
+        var token = this.getToken();
+        const helper = new JwtHelperService();
+        const decodedToken = helper.decodeToken(token);
+        return decodedToken.name;
+      } catch (err) {
+        return null;
+      }
     }
     return null;
   }
 
-  login(access_token:string) {
+  login(access_token: string) {
     localStorage.setItem("access_token", access_token);
-    this.username.next(this.userName);
+    this.loggedIn.next(true);
   }
 
   logout() {
-    localStorage.setItem("access_token", '');
+    localStorage.setItem("access_token", "");
+    this.loggedIn.next(false);
   }
 
   private getToken() {
@@ -44,11 +51,14 @@ export class AuthService {
     if (this.hasToken) {
       return token;
     } else {
-      return '';
+      return "";
     }
   }
 
   private hasToken() {
-    return localStorage.hasOwnProperty("access_token") && localStorage.getItem("access_token") != null;
+    return (
+      localStorage.hasOwnProperty("access_token") &&
+      localStorage.getItem("access_token") != null
+    );
   }
 }

@@ -1,26 +1,17 @@
-<div class="row align-items-center">
-  <div class="col">
-    <app-load-spinner *ngIf="!ready"></app-load-spinner>
-  </div>
+<div class="d-flex justify-content-center">
+  <app-load-spinner *ngIf="!ready"></app-load-spinner>
 </div>
-<div class="row" *ngIf="ready">
-  <div class="card border bg-secondary">
-    <div class="card-header">
-      <p>{{story.score}}
-        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-      </p>
-    </div>
+<div class="d-flex justify-content-center pt-1 pb-1" *ngIf="ready">
+  <div class="card border w-75">
     <div class="card-body">
       <h4 class="card-title">
         <a [href]="story.url">
           <p>{{story.title}}</p>
         </a>
       </h4>
-      <div class="col-xs-6">
-        <div class="col-xs-6">
-          <p class="card-text">{{story.descendants}} comments</p>
-        </div>
-        <div class="col-xs-6"> {{story.time * 1000 | date: "medium"}}</div>
+      <div class="d-flex text-dark">
+        <p class="card-text">{{story.score}}
+          <i class="fa fa-arrow-circle-up" aria-hidden="true"></i> | {{story.descendants}} comments | Posted on {{story.time * 1000 | date: "medium"}}</p>
       </div>
     </div>
   </div>

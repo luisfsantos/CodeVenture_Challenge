@@ -11,6 +11,7 @@ export class StoryComponent implements OnInit, OnDestroy {
   @Input() sid: number;
   story: Story;
   ready: boolean = false;
+  subscription;
   constructor(private hnService: HnStoriesService) {}
 
   ngOnInit() {
@@ -18,9 +19,15 @@ export class StoryComponent implements OnInit, OnDestroy {
   }
 
   showStory() {
-    this.hnService.getStory(this.sid).subscribe((data: Story) => {
-      this.story = { ...data };
-      this.ready = true;
-    });
+    this.subscription = this.hnService
+      .getStory(this.sid)
+      .subscribe((data: Story) => {
+        this.story = { ...data };
+        this.ready = true;
+      });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
