@@ -15,6 +15,7 @@ import { HomeComponent } from "./home/home.component";
 import { StoryComponent } from "./posts/story/story.component";
 import { CommentComponent } from "./posts/comment/comment.component";
 import { LoadSpinnerComponent } from "./load-spinner/load-spinner.component";
+import { CommentsComponent } from './posts/comments/comments.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -26,7 +27,8 @@ export function tokenGetter() {
     HomeComponent,
     StoryComponent,
     CommentComponent,
-    LoadSpinnerComponent
+    LoadSpinnerComponent,
+    CommentsComponent
   ],
   imports: [
     BrowserModule,

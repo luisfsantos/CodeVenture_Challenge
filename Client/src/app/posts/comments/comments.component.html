@@ -1,0 +1,3 @@
+<div class="d-flex" *ngFor="let comment of activeComments | async">
+    <app-single-comment [cid]="comment"></app-single-comment>
+</div>
