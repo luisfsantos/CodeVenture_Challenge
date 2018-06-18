@@ -1,12 +1,27 @@
-<div class="row border border-primary">
-    <div class="card border border-primary bg-secondary">
-        <div class="card-header">
-          <p>{{story.score}} <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></p>
-        </div>
-        <div class="card-body">
-          <h4 class="card-title"><a [href]="story.url"><p>{{story.title}}</p></a></h4>
-          <div class="col-xs-6"> <div class="col-xs-6"><p class="card-text">{{story.descendants}} comments</p></div> <div class="col-xs-6"> {{story.time | date: "medium"}}</div> </div>
-        </div>
-    </div>
+<div class="row align-items-center">
+  <div class="col">
+    <app-load-spinner *ngIf="!ready"></app-load-spinner>
+  </div>
 </div>
-
+<div class="row" *ngIf="ready">
+  <div class="card border bg-secondary">
+    <div class="card-header">
+      <p>{{story.score}}
+        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+      </p>
+    </div>
+    <div class="card-body">
+      <h4 class="card-title">
+        <a [href]="story.url">
+          <p>{{story.title}}</p>
+        </a>
+      </h4>
+      <div class="col-xs-6">
+        <div class="col-xs-6">
+          <p class="card-text">{{story.descendants}} comments</p>
+        </div>
+        <div class="col-xs-6"> {{story.time * 1000 | date: "medium"}}</div>
+      </div>
+    </div>
+  </div>
+</div>
