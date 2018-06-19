@@ -1,7 +1,8 @@
 <div class="d-flex justify-content-center">
   <app-load-spinner *ngIf="!ready"></app-load-spinner>
 </div>
-<div class="d-flex justify-content-center pt-1 pb-1" *ngIf="ready" clickable (click)="showComments()">
+<div class="d-flex justify-content-center pt-1 pb-1" *ngIf="ready" clickable (click)="showComments()" [attr.aria-expanded]="collapseComments"
+  [attr.aria-controls]="'story' + story.id">
   <div class="card border w-75">
     <div class="card-body">
       <h4 class="card-title">
@@ -16,4 +17,6 @@
     </div>
   </div>
 </div>
-<app-comments [comments]="comments | async"></app-comments>
+<div [id]="'story' + story.id" [collapse]="collapseComments" *ngIf="!collapseComments">
+  <app-comments [comments]="comments | async"></app-comments>
+</div>

@@ -9,10 +9,12 @@ import { BehaviorSubject } from "rxjs";
 })
 export class StoryComponent implements OnInit, OnDestroy {
   @Input() sid: number;
+  private _loadedComments: boolean = false;
   story: Story;
   ready: boolean = false;
   subscription;
   comments: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
+  collapseComments: boolean = true;
 
   constructor(private hnService: HnStoriesService) {}
 
@@ -30,7 +32,13 @@ export class StoryComponent implements OnInit, OnDestroy {
   }
 
   showComments() {
-    this.comments.next(this.story.kids);
+    if (!this._loadedComments) {
+      this.comments.next(this.story.kids);
+      this._loadedComments = true;
+      this.collapseComments = false;
+    } else {
+      this.collapseComments = !this.collapseComments;
+    }
   }
 
   ngOnDestroy() {

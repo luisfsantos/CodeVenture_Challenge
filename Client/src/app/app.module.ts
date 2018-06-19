@@ -6,6 +6,7 @@ import { AuthModule } from "./auth/auth.module";
 import { FormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app-routing.module";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
+import { CollapseModule } from "ngx-bootstrap/collapse";
 
 import { AuthService } from "./auth/auth.service";
 import { AuthGuard } from "./auth/guards/auth.guard";
@@ -15,7 +16,7 @@ import { HomeComponent } from "./home/home.component";
 import { StoryComponent } from "./posts/story/story.component";
 import { CommentComponent } from "./posts/comment/comment.component";
 import { LoadSpinnerComponent } from "./load-spinner/load-spinner.component";
-import { CommentsComponent } from './posts/comments/comments.component';
+import { CommentsComponent } from "./posts/comments/comments.component";
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -43,7 +44,8 @@ export function tokenGetter() {
         whitelistedDomains: ["localhost:4200", "localhost:3000"],
         blacklistedRoutes: []
       }
-    })
+    }),
+    CollapseModule.forRoot()
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent]

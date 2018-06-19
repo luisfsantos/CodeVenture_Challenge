@@ -21,27 +21,23 @@ export class CommentsComponent implements OnInit {
   @Input()
   set comments(comments: number[]) {
     this._comments = comments;
-    this.getTopComments();
-  }
-
-  getTopComments() {
-    this.maxComments = Math.floor(this._comments.length / this.items);
+    this.maxComments = Math.ceil(this._comments.length / this.items);
     this.loadMoreComments();
   }
 
   loadMoreComments() {
     if (this.currentComments < this.maxComments) {
-      this.currentComments++;
       this.activeComments.next(
         _.concat(
           this.activeComments.value,
           _.slice(
             this._comments,
-            (this.currentComments - 1) * this.items,
-            this.currentComments * this.items
+            this.currentComments * this.items,
+            ++this.currentComments * this.items
           )
         )
       );
+      this.currentComments++;
     }
   }
 }

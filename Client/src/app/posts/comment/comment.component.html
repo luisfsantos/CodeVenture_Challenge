@@ -1,9 +1,14 @@
-<div class="card">
-  <div class="card-body">
-    <p class="card-title h5">Card title</p>
-    <p class="card-subtitle mb-2 text-muted h6">Card subtitle</p>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="card-link">Like</a>
-    <a href="#" class="card-link">More Comments</a>
+<div class="d-flex justify-content-center">
+  <app-load-spinner *ngIf="!ready"></app-load-spinner>
+</div>
+<div class="d-flex justify-content-center w-100" *ngIf="ready">
+  <div class="card w-75">
+    <div class="card-body">
+      <p class="card-title strong small">{{comment.by ? comment.by : "[deleted]"}}</p>
+      <p class="card-subtitle mb-2 text-muted small">Posted at: {{comment.time*1000 | date: "medium"}}</p>
+      <p class="card-text small" [innerHTML]="comment.text ? comment.text : '[deleted]'"></p>
+      <button class="card-link small" *ngIf="comment.kids" (click)="showChildren()">More Comments</button>
+    </div>
   </div>
 </div>
+<app-comments [comments]="subComments | async" *ngIf="ready && comment.kids"></app-comments>
