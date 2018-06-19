@@ -1,3 +1,10 @@
-<div class="d-flex justify-content-center pl-2 border-left-5" *ngFor="let comment of activeComments | async">
-    <app-single-comment [cid]="comment" class="w-100"></app-single-comment>
+<div class="container">
+    <div class="d-flex flex-column pl-2 border-left-5">
+        <div class="d-flex flex-row justify-content-center" *ngFor="let comment of activeComments | async">
+            <app-single-comment [cid]="comment" class="w-100"></app-single-comment>
+        </div>
+        <div class="d-flex flex-row" *ngIf="moreComments">
+            <button class="button btn-link" (click)="loadMoreComments()">View more comments...</button>
+        </div>
+    </div>
 </div>

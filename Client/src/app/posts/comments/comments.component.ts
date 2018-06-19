@@ -10,7 +10,7 @@ export class CommentsComponent implements OnInit {
   private _comments: number[];
   activeComments: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
   items: number = 5;
-  maxComments: number;
+  maxComments: number = -1;
   finished: boolean = false;
   currentComments: number = 0;
 
@@ -25,8 +25,15 @@ export class CommentsComponent implements OnInit {
     this.loadMoreComments();
   }
 
+  get moreComments() {
+    if (this.maxComments < 0) {
+      return false;
+    }
+    return this.currentComments < this.maxComments;
+  }
+
   loadMoreComments() {
-    if (this.currentComments < this.maxComments) {
+    if (this.moreComments) {
       this.activeComments.next(
         _.concat(
           this.activeComments.value,

@@ -17,6 +17,6 @@
     </div>
   </div>
 </div>
-<div [id]="'story' + story.id" [collapse]="collapseComments" *ngIf="!collapseComments">
-  <app-comments [comments]="comments | async"></app-comments>
+<div class="d-flex justify-content-center" [id]="'story' + story.id" [collapse]="collapseComments" *ngIf="!collapseComments">
+  <app-comments [comments]="comments | async" class="w-75"></app-comments>
 </div>
