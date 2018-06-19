@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <app-load-spinner *ngIf="!ready"></app-load-spinner>
 </div>
-<div class="d-flex justify-content-center pt-1 pb-1" *ngIf="ready" clickable (click)="showComments()" [attr.aria-expanded]="collapseComments"
+<div class="d-flex justify-content-center pt-1 pb-1" *ngIf="ready" clickable (click)="toggleComments()" [attr.aria-expanded]="collapseComments"
   [attr.aria-controls]="'story' + story.id">
   <div class="card border w-75">
     <div class="card-body">

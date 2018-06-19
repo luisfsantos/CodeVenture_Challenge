@@ -9,11 +9,12 @@ import { BehaviorSubject } from "rxjs";
 })
 export class StoryComponent implements OnInit, OnDestroy {
   @Input() sid: number;
-  private _loadedComments: boolean = false;
   story: Story;
   ready: boolean = false;
   subscription;
-  comments: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
+  comments: BehaviorSubject<number[]> = new BehaviorSubject<number[]>(
+    undefined
+  );
   collapseComments: boolean = true;
 
   constructor(private hnService: HnStoriesService) {}
@@ -31,14 +32,11 @@ export class StoryComponent implements OnInit, OnDestroy {
       });
   }
 
-  showComments() {
-    if (!this._loadedComments) {
+  toggleComments() {
+    if (this.comments === undefined) {
       this.comments.next(this.story.kids);
-      this._loadedComments = true;
-      this.collapseComments = false;
-    } else {
-      this.collapseComments = !this.collapseComments;
     }
+    this.collapseComments = !this.collapseComments;
   }
 
   ngOnDestroy() {
