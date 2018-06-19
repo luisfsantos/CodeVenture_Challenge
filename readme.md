@@ -11,6 +11,8 @@ For dev setup follow the instructions:
 Simple server to handle Oauth flow for Github signin/register.
 
 ### Setup
+Before running please copy the config.dummy.json to a config.json file with the necessary values filled in. The JWT_SECRET can be any string.
+
 In the Server folder run:
 
 ```
